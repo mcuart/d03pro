@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<userOverrides>
+    <override>
+        <path>F:\zhuomian\_F407\STM32F4xx_V1.9.0_FSMC_16bit_ILI9341_EMWIN_OK_UCOS_III_SWIMx2_SWDx2_USART1_3_6_xbf_p\Project\STM32F4xx_StdPeriph_Templates\main.c</path>
+        <encoding>UTF-8</encoding>
+    </override>
+    <override>
+        <path>F:\zhuomian\_F407\STM32F4xx_V1.9.0_FSMC_16bit_ILI9341_EMWIN_OK_UCOS_III_SWIMx2_SWDx2_USART1_3_6_xbf_p_mq_241021\Libraries\STM32_USB_Device_Library\Class\cdc\src\usbd_cdc_core.c</path>
+        <encoding>System</encoding>
+    </override>
+    <override>
+        <path>F:\zhuomian\_F407\STM32F4xx_V1.9.0_FSMC_16bit_ILI9341_EMWIN_OK_UCOS_III_SWIMx2_SWDx2_USART1_3_6_xbf_p_mq_241025\Libraries\STM32_USB_Device_Library\Class\cdc\src\usbd_cdc_core.c</path>
+        <encoding>System</encoding>
+    </override>
+    <override>
+        <path>F:\zhuomian\_F407\STM32F4xx_V1.9.0_FSMC_16bit_ILI9341_EMWIN_OK_UCOS_III_SWIMx2_SWDx2_USART1_3_6_xbf_p_mq_241025\Libraries\STM32_USB_OTG_Driver\inc\usb_core.h</path>
+        <encoding>System</encoding>
+    </override>
+    <override>
+        <path>F:\zhuomian\_F407\STM32F4xx_V1.9.0_FSMC_16bit_ILI9341_EMWIN_OK_UCOS_III_SWIMx2_SWDx2_USART1_3_6_xbf_p_mq_241025\Project\STM32F4xx_StdPeriph_Templates\SWD_main.c</path>
+        <encoding>System</encoding>
+    </override>
+    <override>
+        <path>F:\zhuomian\_F407\STM32F4xx_V1.9.0_FSMC_16bit_ILI9341_EMWIN_OK_UCOS_III_SWIMx2_SWDx2_USART1_3_6_xbf_p_mq_241119\Libraries\STM32_USB_HOST_Library\Class\HID\inc\usbh_hid_keybd.h</path>
+        <encoding>System</encoding>
+    </override>
+    <override>
+        <path>F:\zhuomian\_F407\STM32F4xx_V1.9.0_FSMC_16bit_ILI9341_EMWIN_OK_UCOS_III_SWIMx2_SWDx2_USART1_3_6_xbf_p_mq_241119\Libraries\STM32_USB_HOST_Library\Class\HID\src\usbh_hid_core.c</path>
+        <encoding>UTF-8</encoding>
+    </override>
+</userOverrides>

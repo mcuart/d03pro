@@ -1,0 +1,15 @@
+"D:\IAR_8402\arm\bin\armproc.dll" 
+
+"D:\IAR_8402\arm\bin\armstlink2.dll" 
+
+"C:\Users\MCUART\Desktop\_F407\STM32F4xx_DSP_StdPeriph_Lib_V1.9.0\Project\STM32F4xx_StdPeriph_Templates\EWARM\STM32F429_439xx\Exe\Project.out" 
+
+--plugin="D:\IAR_8402\arm\bin\armbat.dll" 
+
+--device_macro="D:\IAR_8402\arm\config\debugger\ST\STM32F4xx.dmac" 
+
+--flash_loader="D:\IAR_8402\arm\config\flashloader\ST\FlashSTM32F427xI.board" 
+
+
+
+
