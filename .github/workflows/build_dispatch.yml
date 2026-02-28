@@ -1,0 +1,115 @@
+name: build_dispatch
+
+on:
+  workflow_dispatch:
+
+jobs:
+  build:
+    runs-on: windows-2022
+
+    steps:
+    # 1️⃣ Checkout 仓库
+    - uses: actions/checkout@v4
+
+    # 2️⃣ 尝试从缓存恢复 IAR
+    - name: Restore IAR cache
+      uses: actions/cache@v4
+      id: cache-iar
+      with:
+        path: IAR8402
+        key: iar-8402-v1
+
+    # 3️⃣ 如果缓存不存在才下载
+    - name: Download IAR compiler
+      if: steps.cache-iar.outputs.cache-hit != 'true'
+      shell: cmd
+      run: |
+        gh release download iar --repo mcuart/private --pattern "IAR8402.rar"
+      env:
+        GH_TOKEN: ${{ secrets.PRIVATE_TOKEN }}
+
+    - name: Extract compiler
+      if: steps.cache-iar.outputs.cache-hit != 'true'
+      run: |
+        mkdir IAR8402
+        tar -xf IAR8402.rar -C IAR8402
+      shell: cmd
+
+    # 4️⃣ 列出解压后的目录结构，确认 IarBuild.exe 位置
+    #- name: List compiler files
+    #  run: dir IAR8402 /s /b
+    #  shell: cmd
+      
+    - name: Build project and collect firmware
+      shell: cmd
+      run: |
+        setlocal EnableDelayedExpansion
+    
+        rem 找 IarBuild.exe
+        for /f "delims=" %%i in ('dir IAR8402\IarBuild.exe /s /b') do (
+          set EXE_PATH=%%i
+          goto :found_iar
+        )
+        :found_iar
+        echo Found IarBuild.exe: !EXE_PATH!
+    
+        rem 找 Project.ewp
+        for /f "delims=" %%i in ('dir "%GITHUB_WORKSPACE%\Project.ewp" /s /b') do (
+          set PROJECT_PATH=%%i
+          goto :found_proj
+        )
+        :found_proj
+        echo Found Project.ewp: !PROJECT_PATH!
+    
+        rem 编译
+        call "!EXE_PATH!" "!PROJECT_PATH!" -build STM32F40_41xxx
+    
+        rem 取 EWARM 目录
+        for %%D in ("!PROJECT_PATH!") do set EWARM_DIR=%%~dpD
+        echo EWARM dir: !EWARM_DIR!
+    
+        rem 构造 bin 绝对路径
+        set BIN_DIR=!EWARM_DIR!STM32F40_41xxx\Exe\
+        echo Bin dir: !BIN_DIR!
+    
+        rem 创建 build 目录
+        if not exist build mkdir build
+    
+        rem 复制 bin 文件
+        set FOUND=0
+        for %%F in ("!BIN_DIR!*.bin") do (
+          if exist "%%F" (
+            echo Copying %%F
+            copy "%%F" build\
+            set FOUND=1
+          )
+        )
+    
+        if "!FOUND!"=="0" (
+          echo No bin files found in !BIN_DIR!
+          exit /b 1
+        )
+
+        rem 复制 txt 文件
+        set FOUND=0
+        for %%F in ("!BIN_DIR!*.txt") do (
+          if exist "%%F" (
+            echo Copying %%F
+            copy "%%F" build\
+            set FOUND=1
+          )
+        )
+    
+        if "!FOUND!"=="0" (
+          echo No bin files found in !BIN_DIR!
+          exit /b 1
+        )
+    
+        echo Final build folder:
+        dir build
+        
+    - name: Upload firmware artifacts
+      uses: actions/upload-artifact@v4
+      with:
+        name: firmware
+        path: build
