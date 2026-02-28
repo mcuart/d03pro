@@ -108,8 +108,14 @@ jobs:
         echo Final build folder:
         dir build
         
-    - name: Upload firmware artifacts
+    - name: Upload bin
       uses: actions/upload-artifact@v4
       with:
-        name: firmware
-        path: build
+        name: firmware-bin
+        path: build/*.bin
+    
+    - name: Upload txt
+      uses: actions/upload-artifact@v4
+      with:
+        name: firmware-txt
+        path: build/*.txt
