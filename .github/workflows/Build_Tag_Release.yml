@@ -142,7 +142,7 @@ jobs:
           username: ${{ secrets.USERNAME }}
           key: ${{ secrets.SFTP_PRIVATE_KEY }}
           source: build/*.txt
-          target: ${{ vars.REMOTE_PATH }}
+          target: ${{ secrets.REMOTE_PATH }}
           strip_components: 1      
 
     - name: Create Release
