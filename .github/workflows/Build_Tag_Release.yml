@@ -1,4 +1,4 @@
-name: Build STM32 with Custom Windows Compiler
+name: Build Tag Release
 
 permissions:
   contents: write
