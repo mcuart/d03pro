@@ -49,13 +49,17 @@
 #include  <includes.h>
 
 
-
+//device
 #include "usbd_cdc_core.h"
 #include "usbd_usr.h"
 #include "usb_conf.h"
 #include "usbd_desc.h"
 
+#include "usbd_desc_msc.h"
+#include "usbd_msc_core.h"
 
+
+//host
 #include "usbh_hid_core.h"
 #include "usbh_usr.h"
 
@@ -245,6 +249,8 @@ const GUI_WIDGET_CREATE_INFO _aFrameWinControl_main_menu[] = {
 
 /* Private variables ---------------------------------------------------------*/
 __ALIGN_BEGIN USB_OTG_CORE_HANDLE USB_OTG_dev __ALIGN_END;
+__ALIGN_BEGIN USB_OTG_CORE_HANDLE USB_OTG_dev_winusb __ALIGN_END;
+__ALIGN_BEGIN USB_OTG_CORE_HANDLE USB_OTG_dev_msc __ALIGN_END;
 
 #pragma data_alignment=4
 __ALIGN_BEGIN USB_OTG_CORE_HANDLE USB_OTG_Core_dev __ALIGN_END;
@@ -975,10 +981,14 @@ void start_task(void *p_arg)
   //NVIC_Configuration();
   
   /* USART configuration */
-  //USART_Config();  
-  USBD_Init(&USB_OTG_dev,USB_OTG_FS_CORE_ID,&USR_desc, &USBD_HID_CDC_cb, &USR_cb);
-  DCD_DevDisconnect(&USB_OTG_dev);
-  
+  //USART_Config();
+  //device
+  USBD_Init(&USB_OTG_dev_winusb,USB_OTG_FS_CORE_ID,&USR_desc, &USBD_HID_CDC_cb, &USR_cb);
+  USB_OTG_dev=USB_OTG_dev_winusb;
+  USBD_Init(&USB_OTG_dev_msc,USB_OTG_FS_CORE_ID,&USR_desc_msc, &USBD_MSC_cb, &USR_cb);
+  DCD_DevDisconnect(&USB_OTG_dev_winusb);
+  DCD_DevDisconnect(&USB_OTG_dev_msc);
+  //host
   USBH_Init(&USB_OTG_Core_dev,USB_OTG_HS_CORE_ID,&USB_Host, &HID_cb, &USR_Callbacks);
   //TIM6_Config();
   KEY_Init();
@@ -3524,7 +3534,7 @@ void _cbFrameWinControl_udisk_mode(WM_MESSAGE * pMsg) {
     TEXT_SetFont(hItem, &GUI_Fontsongti17);
     TEXT_SetTextColor(hItem, GUI_BLUE);
     
-    //USB_DP_ENABLE_MASS;    
+    USB_DP_ENABLE_MASS;    
     
     break;
   case WM_PAINT:
@@ -3547,7 +3557,7 @@ void _cbFrameWinControl_udisk_mode(WM_MESSAGE * pMsg) {
         
         GUI_EndDialog(_hDialogControl_udisk_mode, 0);        
         _hDialogControl_main_menu=GUI_CreateDialogBox(_aFrameWinControl_main_menu, GUI_COUNTOF(_aFrameWinControl_main_menu), &_cbFrameWinControl_main_menu, WM_HBKWIN, 0, 0);           
-        //USB_DP_DISABLE_MASS;      
+        USB_DP_DISABLE_MASS;      
         break;
       }
       break;
@@ -3650,6 +3660,7 @@ void _cbFrameWinControl_main_menu(WM_MESSAGE * pMsg) {
         GUI_EndDialog(_hDialogControl_main_menu, 0);
         
         _hDialogControl_image_updata=GUI_CreateDialogBox(_aFrameWinControl_image_updata, GUI_COUNTOF(_aFrameWinControl_image_updata), &_cbFrameWinControl_image_updata, WM_HBKWIN, 0, 0);
+
         GUI_Exec();       
         //        OS_ERR err;
         //        
@@ -3707,7 +3718,8 @@ void _cbFrameWinControl_main_menu(WM_MESSAGE * pMsg) {
       case GUI_ID_UDISK_MODE:
         
         GUI_EndDialog(_hDialogControl_main_menu, 0);
-        _hDialogControl_udisk_mode=GUI_CreateDialogBox(_aFrameWinControl_udisk_mode, GUI_COUNTOF(_aFrameWinControl_udisk_mode), &_cbFrameWinControl_udisk_mode, WM_HBKWIN, 0, 0);          
+        _hDialogControl_udisk_mode=GUI_CreateDialogBox(_aFrameWinControl_udisk_mode, GUI_COUNTOF(_aFrameWinControl_udisk_mode), &_cbFrameWinControl_udisk_mode, WM_HBKWIN, 0, 0);
+        
         GUI_Exec();
         break;
       }

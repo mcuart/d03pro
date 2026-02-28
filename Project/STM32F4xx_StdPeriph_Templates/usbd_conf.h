@@ -70,6 +70,21 @@
 //#endif /* USE_USB_OTG_HS */
 
 #define APP_FOPS                        VCP_fops
+
+
+
+
+
+
+
+
+
+
+#define MSC_IN_EP                    0x81
+#define MSC_OUT_EP                   0x01
+#define MSC_MAX_PACKET                64
+#define MSC_MEDIA_PACKET             4096
+
 /**
   * @}
   */ 

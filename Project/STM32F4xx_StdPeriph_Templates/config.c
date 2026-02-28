@@ -3,8 +3,14 @@
 //#include "usb_pwr.h"
 #include "usb_dcd.h"
 
+#include "usbd_usr.h"
+#include "usbd_desc_msc.h"
+#include "usbd_msc_core.h"
+
 #include "includes.h"
 extern USB_OTG_CORE_HANDLE USB_OTG_dev;
+extern USB_OTG_CORE_HANDLE USB_OTG_dev_winusb;
+extern USB_OTG_CORE_HANDLE USB_OTG_dev_msc;
 
 //#define VUSB_PIN GPIO_Pin_5
 //#define VUSB_GPIO GPIOC
@@ -144,8 +150,8 @@ void GPIO_Config(void)
   //  
   //  GPIO_PinRemapConfig(GPIO_Remap_SWJ_JTAGDisable, ENABLE);、
   
-//  void Delay_Timer_Init(void);
-//  Delay_Timer_Init();
+  //  void Delay_Timer_Init(void);
+  //  Delay_Timer_Init();
 }
 
 
@@ -487,11 +493,11 @@ void NVIC_Configuration(void)
   
   //  
   //  
-//    NVIC_InitStructure.NVIC_IRQChannel = TIM6_DAC_IRQn;
-//    NVIC_InitStructure.NVIC_IRQChannelPreemptionPriority = 0;
-//    NVIC_InitStructure.NVIC_IRQChannelSubPriority = 0;
-//    NVIC_InitStructure.NVIC_IRQChannelCmd = ENABLE;
-//    NVIC_Init(&NVIC_InitStructure);
+  //    NVIC_InitStructure.NVIC_IRQChannel = TIM6_DAC_IRQn;
+  //    NVIC_InitStructure.NVIC_IRQChannelPreemptionPriority = 0;
+  //    NVIC_InitStructure.NVIC_IRQChannelSubPriority = 0;
+  //    NVIC_InitStructure.NVIC_IRQChannelCmd = ENABLE;
+  //    NVIC_Init(&NVIC_InitStructure);
   //  
   //  NVIC_InitStructure.NVIC_IRQChannel = TIM7_IRQn;
   //  NVIC_InitStructure.NVIC_IRQChannelPreemptionPriority = 0;
@@ -522,7 +528,7 @@ void u_dp_dis(FunctionalState IsUsbEnable)
     //    NVIC_Init(&NVIC_InitStructure);
     CPU_SR_ALLOC();
     CPU_CRITICAL_ENTER();
-    DCD_DevDisconnect (&USB_OTG_dev);
+    DCD_DevDisconnect (&USB_OTG_dev_winusb);
     CPU_CRITICAL_EXIT();
   }
   else
@@ -536,47 +542,31 @@ void u_dp_dis(FunctionalState IsUsbEnable)
     //    NVIC_Init(&NVIC_InitStructure);
     CPU_SR_ALLOC();
     CPU_CRITICAL_ENTER();
-    DCD_DevConnect (&USB_OTG_dev);
+    USB_OTG_dev=USB_OTG_dev_winusb;
+    DCD_DevConnect (&USB_OTG_dev_winusb);
     CPU_CRITICAL_EXIT();
   }
 }
 
-//void u_dp_dis_MASS(FunctionalState IsUsbEnable)
-//{
-//  GPIO_InitTypeDef GPIO_InitStructure;
-//  
-//  if(IsUsbEnable!=ENABLE)
-//  {
-//    PowerOff();
-//    RCC_APB2PeriphClockCmd(RCC_APB2Periph_GPIOA , ENABLE);
-//    
-//    GPIO_InitStructure.GPIO_Pin = USB_DP_PIN;
-//    GPIO_InitStructure.GPIO_Speed = GPIO_Speed_50MHz;
-//    GPIO_InitStructure.GPIO_Mode = GPIO_Mode_Out_OD;
-//    GPIO_Init(USB_DP_GPIO, &GPIO_InitStructure);	
-//    
-//    USB_DP_LOW;
-//    // USB_DM_LOW;
-//    NVIC_InitTypeDef NVIC_InitStructure;
-//    NVIC_InitStructure.NVIC_IRQChannel = USB_LP_CAN1_RX0_IRQn;
-//    NVIC_InitStructure.NVIC_IRQChannelPreemptionPriority = 0;
-//    NVIC_InitStructure.NVIC_IRQChannelSubPriority = 0;
-//    NVIC_InitStructure.NVIC_IRQChannelCmd = DISABLE;
-//    NVIC_Init(&NVIC_InitStructure);
-//  }
-//  else
-//  {
-//    NVIC_InitTypeDef NVIC_InitStructure;
-//    NVIC_InitStructure.NVIC_IRQChannel = USB_LP_CAN1_RX0_IRQn;
-//    NVIC_InitStructure.NVIC_IRQChannelPreemptionPriority = 0;
-//    NVIC_InitStructure.NVIC_IRQChannelSubPriority = 0;
-//    NVIC_InitStructure.NVIC_IRQChannelCmd = ENABLE;
-//    NVIC_Init(&NVIC_InitStructure);
-//    /* MAL configuration */
-//    MAL_Config();
-//    USB_Init_MASS();
-//  }
-//}
+void u_dp_dis_MASS(FunctionalState IsUsbEnable)
+{
+  if(IsUsbEnable!=ENABLE)
+  {
+    CPU_SR_ALLOC();
+    CPU_CRITICAL_ENTER();
+    DCD_DevDisconnect (&USB_OTG_dev_msc);
+    CPU_CRITICAL_EXIT();
+  }
+  else
+  {
+    CPU_SR_ALLOC();
+    CPU_CRITICAL_ENTER();
+    USB_OTG_dev=USB_OTG_dev_msc;
+    DCD_DevConnect (&USB_OTG_dev_msc);
+    CPU_CRITICAL_EXIT();
+  }
+  
+}
 //
 //u8 isp_result = 0;
 //unsigned char rxbuf[300]={0};
@@ -705,65 +695,65 @@ void u_dp_dis(FunctionalState IsUsbEnable)
 
 void Delay_Timer_Init(void)
 {
-    TIM_TimeBaseInitTypeDef TIM_TimeBaseInitStruct;
-
-    RCC_APB1PeriphClockCmd(RCC_APB1Periph_TIM5, ENABLE);
-
-    TIM_TimeBaseStructInit(&TIM_TimeBaseInitStruct);
-    TIM_TimeBaseInitStruct.TIM_ClockDivision = 0;
-    TIM_TimeBaseInitStruct.TIM_CounterMode = TIM_CounterMode_Down;
-    TIM_TimeBaseInitStruct.TIM_Period = 2000;
-    TIM_TimeBaseInitStruct.TIM_Prescaler = (SystemCoreClock / 1000000) - 1;
-    TIM_TimeBaseInit(TIM5, &TIM_TimeBaseInitStruct);
-
-    while((TIM5->SR & TIM_FLAG_Update)!=SET);
-    TIM5->SR = (uint16_t)~TIM_FLAG_Update;
+  TIM_TimeBaseInitTypeDef TIM_TimeBaseInitStruct;
+  
+  RCC_APB1PeriphClockCmd(RCC_APB1Periph_TIM5, ENABLE);
+  
+  TIM_TimeBaseStructInit(&TIM_TimeBaseInitStruct);
+  TIM_TimeBaseInitStruct.TIM_ClockDivision = 0;
+  TIM_TimeBaseInitStruct.TIM_CounterMode = TIM_CounterMode_Down;
+  TIM_TimeBaseInitStruct.TIM_Period = 2000;
+  TIM_TimeBaseInitStruct.TIM_Prescaler = (SystemCoreClock / 1000000) - 1;
+  TIM_TimeBaseInit(TIM5, &TIM_TimeBaseInitStruct);
+  
+  while((TIM5->SR & TIM_FLAG_Update)!=SET);
+  TIM5->SR = (uint16_t)~TIM_FLAG_Update;
 }
 
 
 void System_Delay_ms(u16 nms)
 {	 		  	  
-//  u32 temp;	
-//  SysTick->LOAD=(u32)nms*9000;			//时间加载(SysTick->LOAD为24bit)
-//  SysTick->VAL   =  (0x00);                     /* Load the SysTick Counter Value */         //清空计数器
-//  SysTick->CTRL =  1; /* Enable SysTick and SysTick Timer */      //开始倒数  
-//  do
-//  {
-//    temp=SysTick->CTRL;
-//  }
-//  while((temp&0x01)&&(!(temp&(1<<16))));//等待时间到达   
-//  SysTick->CTRL	&=  (~1);    										//关闭计数器
-//  SysTick->VAL   =  (0x00);                     /* Load the SysTick Counter Value */         //清空计数器
+  //  u32 temp;	
+  //  SysTick->LOAD=(u32)nms*9000;			//时间加载(SysTick->LOAD为24bit)
+  //  SysTick->VAL   =  (0x00);                     /* Load the SysTick Counter Value */         //清空计数器
+  //  SysTick->CTRL =  1; /* Enable SysTick and SysTick Timer */      //开始倒数  
+  //  do
+  //  {
+  //    temp=SysTick->CTRL;
+  //  }
+  //  while((temp&0x01)&&(!(temp&(1<<16))));//等待时间到达   
+  //  SysTick->CTRL	&=  (~1);    										//关闭计数器
+  //  SysTick->VAL   =  (0x00);                     /* Load the SysTick Counter Value */         //清空计数器
   
   for(u8 i=0;i<nms;i++)
   {
-     System_Delay_us(1000-5);
+    System_Delay_us(1000-5);
   }
- 
+  
   
   
   
 }
 void System_Delay_us(u32 nus)
 {		
-//  u32 temp;	    	 
-//  SysTick->LOAD=nus*9; //时间加载	  		 
-//  SysTick->VAL   =  (0x00);                     /* Load the SysTick Counter Value */         //清空计数器
-//  SysTick->CTRL = 1; 														/* Enable SysTick and SysTick Timer */  //开始倒数 	 
-//  do
-//  {
-//    temp=SysTick->CTRL;
-//  }
-//  while(temp&0x01&&!(temp&(1<<16)));//等待时间到达   
-//  SysTick->CTRL = 0x00;
-//  SysTick->VAL   =  (0x00);                     /* Load the SysTick Counter Value */         //清空计数器
+  //  u32 temp;	    	 
+  //  SysTick->LOAD=nus*9; //时间加载	  		 
+  //  SysTick->VAL   =  (0x00);                     /* Load the SysTick Counter Value */         //清空计数器
+  //  SysTick->CTRL = 1; 														/* Enable SysTick and SysTick Timer */  //开始倒数 	 
+  //  do
+  //  {
+  //    temp=SysTick->CTRL;
+  //  }
+  //  while(temp&0x01&&!(temp&(1<<16)));//等待时间到达   
+  //  SysTick->CTRL = 0x00;
+  //  SysTick->VAL   =  (0x00);                     /* Load the SysTick Counter Value */         //清空计数器
   
   
-    TIM5->CNT = nus-1;
-    TIM5->CR1 |= TIM_CR1_CEN;
-    while((TIM5->SR & TIM_FLAG_Update)!=SET);
-    TIM5->SR = (uint16_t)~TIM_FLAG_Update;
-    TIM5->CR1 &= ~TIM_CR1_CEN;  
+  TIM5->CNT = nus-1;
+  TIM5->CR1 |= TIM_CR1_CEN;
+  while((TIM5->SR & TIM_FLAG_Update)!=SET);
+  TIM5->SR = (uint16_t)~TIM_FLAG_Update;
+  TIM5->CR1 &= ~TIM_CR1_CEN;  
   
   
 }

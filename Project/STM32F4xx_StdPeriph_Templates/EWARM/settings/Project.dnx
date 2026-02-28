@@ -12,15 +12,15 @@
         <ByteLimit>50</ByteLimit>
     </Stack>
     <StLinkDriver>
-        <stlinkserialNo>45281087</stlinkserialNo>
+        <stlinkserialNo>43301343</stlinkserialNo>
         <stlinkfoundProbes />
-        <stlinkResetStyle>0</stlinkResetStyle>
-        <stlinkResetStrategy>0</stlinkResetStrategy>
         <CStepIntDis>_ 0</CStepIntDis>
         <LeaveTargetRunning>_ 0</LeaveTargetRunning>
+        <stlinkResetStyle>0</stlinkResetStyle>
+        <stlinkResetStrategy>0</stlinkResetStrategy>
     </StLinkDriver>
     <DebugChecksum>
-        <Checksum>3569560525</Checksum>
+        <Checksum>759922344</Checksum>
     </DebugChecksum>
     <Exceptions>
         <StopOnUncaught>_ 0</StopOnUncaught>
@@ -110,6 +110,17 @@
         <ShowTimeSum>1</ShowTimeSum>
         <SumSortOrder>0</SumSortOrder>
     </EventLog>
+    <DisassembleMode>
+        <mode>0</mode>
+    </DisassembleMode>
+    <Breakpoints2>
+        <Bp0>_ 1 "EMUL_CODE" "{$PROJ_DIR$\..\use_flashloader.c}.496.14" 0 0 1 "" 0 "" 0</Bp0>
+        <Bp1>_ 1 "EMUL_CODE" "{$PROJ_DIR$\..\..\..\Libraries\STM32_USB_Device_Library\Class\msc\src\usbd_storage_msd.c}.245.5" 0 0 1 "" 0 "" 0</Bp1>
+        <Bp2>_ 1 "EMUL_CODE" "{$PROJ_DIR$\..\..\..\Libraries\STM32_USB_Device_Library\Class\msc\src\usbd_storage_msd.c}.288.3" 0 0 1 "" 0 "" 0</Bp2>
+        <Bp3>_ 1 "EMUL_CODE" "{$PROJ_DIR$\..\..\..\Libraries\STM32_USB_Device_Library\Class\msc\src\usbd_storage_msd.c}.288.3" 0 0 1 "" 0 "" 0</Bp3>
+        <Bp4>_ 1 "EMUL_CODE" "{$PROJ_DIR$\..\..\..\Libraries\STM32_USB_Device_Library\Class\msc\src\usbd_storage_msd.c}.288.3" 0 0 1 "" 0 "" 0</Bp4>
+        <Count>5</Count>
+    </Breakpoints2>
     <TermIOLog>
         <LoggingEnabled>_ 0</LoggingEnabled>
         <LogFile>_ ""</LogFile>
@@ -119,6 +130,17 @@
         <LogFile>_ ""</LogFile>
         <Category>_ 0</Category>
     </LogFile>
+    <Aliases>
+        <A0>_ "C:\Users\MCUART\Desktop\_F407\STM32F4xx_DSP_StdPeriph_Lib_V1.9.0_FSMC_16bit_ILI9341_EMWIN\Libraries\STM32F4xx_StdPeriph_Driver\src\stm32f4xx_fsmc.c" ""</A0>
+        <A1>_ "C:\Users\MCUART\Desktop\_F407\STM32F4xx_DSP_StdPeriph_Lib_V1.9.0_FSMC_16bit_ILI9341_EMWIN\Project\STM32F4xx_StdPeriph_Templates\Touch.c" ""</A1>
+        <A2>_ "C:\Users\MCUART\Desktop\_F407\STM32F4xx_DSP_StdPeriph_Lib_V1.9.0_FSMC_16bit_ILI9341_EMWIN\Project\STM32F4xx_StdPeriph_Templates\stm32f4xx_it.c" ""</A2>
+        <A3>_ "C:\Users\MCUART\Desktop\_F407\STM32F4xx_DSP_StdPeriph_Lib_V1.9.0_FSMC_16bit_ILI9341_EMWIN_OK_UCOS_III_OK_\Libraries\STM32F4xx_StdPeriph_Driver\src\stm32f4xx_adc.c" ""</A3>
+        <A4>_ "C:\Users\MCUART\Desktop\_F407\STM32F4xx_DSP_StdPeriph_Lib_V1.9.0_FSMC_16bit_ILI9341_EMWIN_OK_UCOS_III_SWIMx2_SWDx2_USART6\Libraries\STM32F4xx_StdPeriph_Driver\src\stm32f4xx_adc.c" ""</A4>
+        <A5>_ "C:\Users\MCUART\Desktop\_F407\STM32F4xx_DSP_StdPeriph_Lib_V1.9.0_FSMC_16bit_ILI9341_EMWIN_OK_UCOS_III_SWIMx2_SWDx2_USART6\Project\STM32F4xx_StdPeriph_Templates\Touch.c" ""</A5>
+        <A6>_ "C:\Users\MCUART\Desktop\_F407\STM32F4xx_V1.9.0_FSMC_16bit_ILI9341_EMWIN_OK_UCOS_III_SWIMx2_SWDx2_USART1_3_6_xbf\Libraries\STM32F4xx_StdPeriph_Driver\src\stm32f4xx_adc.c" ""</A6>
+        <Count>7</Count>
+        <SuppressDialog>0</SuppressDialog>
+    </Aliases>
     <DriverProfiling>
         <Enabled>0</Enabled>
         <Mode>3</Mode>
@@ -132,22 +154,4 @@
     <CallStackStripe>
         <ShowTiming>1</ShowTiming>
     </CallStackStripe>
-    <DisassembleMode>
-        <mode>0</mode>
-    </DisassembleMode>
-    <Breakpoints2>
-        <Bp0>_ 1 "EMUL_CODE" "{$PROJ_DIR$\..\use_flashloader.c}.496.14" 0 0 1 "" 0 "" 0</Bp0>
-        <Count>1</Count>
-    </Breakpoints2>
-    <Aliases>
-        <A0>_ "C:\Users\MCUART\Desktop\_F407\STM32F4xx_DSP_StdPeriph_Lib_V1.9.0_FSMC_16bit_ILI9341_EMWIN\Libraries\STM32F4xx_StdPeriph_Driver\src\stm32f4xx_fsmc.c" ""</A0>
-        <A1>_ "C:\Users\MCUART\Desktop\_F407\STM32F4xx_DSP_StdPeriph_Lib_V1.9.0_FSMC_16bit_ILI9341_EMWIN\Project\STM32F4xx_StdPeriph_Templates\Touch.c" ""</A1>
-        <A2>_ "C:\Users\MCUART\Desktop\_F407\STM32F4xx_DSP_StdPeriph_Lib_V1.9.0_FSMC_16bit_ILI9341_EMWIN\Project\STM32F4xx_StdPeriph_Templates\stm32f4xx_it.c" ""</A2>
-        <A3>_ "C:\Users\MCUART\Desktop\_F407\STM32F4xx_DSP_StdPeriph_Lib_V1.9.0_FSMC_16bit_ILI9341_EMWIN_OK_UCOS_III_OK_\Libraries\STM32F4xx_StdPeriph_Driver\src\stm32f4xx_adc.c" ""</A3>
-        <A4>_ "C:\Users\MCUART\Desktop\_F407\STM32F4xx_DSP_StdPeriph_Lib_V1.9.0_FSMC_16bit_ILI9341_EMWIN_OK_UCOS_III_SWIMx2_SWDx2_USART6\Libraries\STM32F4xx_StdPeriph_Driver\src\stm32f4xx_adc.c" ""</A4>
-        <A5>_ "C:\Users\MCUART\Desktop\_F407\STM32F4xx_DSP_StdPeriph_Lib_V1.9.0_FSMC_16bit_ILI9341_EMWIN_OK_UCOS_III_SWIMx2_SWDx2_USART6\Project\STM32F4xx_StdPeriph_Templates\Touch.c" ""</A5>
-        <A6>_ "C:\Users\MCUART\Desktop\_F407\STM32F4xx_V1.9.0_FSMC_16bit_ILI9341_EMWIN_OK_UCOS_III_SWIMx2_SWDx2_USART1_3_6_xbf\Libraries\STM32F4xx_StdPeriph_Driver\src\stm32f4xx_adc.c" ""</A6>
-        <Count>7</Count>
-        <SuppressDialog>0</SuppressDialog>
-    </Aliases>
 </settings>

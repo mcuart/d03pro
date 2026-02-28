@@ -2488,6 +2488,7 @@
                     <state>$PROJ_DIR$\..\..\..\Libraries\STM32_USB_Device_Library\Class\hid\inc</state>
                     <state>$PROJ_DIR$\..\..\..\Libraries\STM32_USB_Device_Library\Class\cdc\inc</state>
                     <state>$PROJ_DIR$\..\..\..\Libraries\STM32_USB_Device_Library\Class\hid_cdc_wrapper\inc</state>
+                    <state>$PROJ_DIR$\..\..\..\Libraries\STM32_USB_Device_Library\Class\msc\inc</state>
                     <state>$PROJ_DIR$\..\..\..\Libraries\STM32_USB_Device_Library\Core\inc</state>
                     <state>$PROJ_DIR$\..\UCOSIII\UCOS_BSP</state>
                     <state>$PROJ_DIR$\..\..\..\Libraries\STM32_USB_HOST_Library\Class\HID\inc</state>
@@ -11170,6 +11171,9 @@
             <name>$PROJ_DIR$\..\usbd_desc.c</name>
         </file>
         <file>
+            <name>$PROJ_DIR$\..\usbd_desc_msc.c</name>
+        </file>
+        <file>
             <name>$PROJ_DIR$\..\usbd_usr.c</name>
         </file>
         <file>
@@ -11193,9 +11197,27 @@
                 </file>
             </group>
             <group>
-                <name>HID-CDC</name>
+                <name>HID_CDC_WRAPPER</name>
                 <file>
                     <name>$PROJ_DIR$\..\..\..\Libraries\STM32_USB_Device_Library\Class\hid_cdc_wrapper\src\usbd_hid_cdc_wrapper.c</name>
+                </file>
+            </group>
+            <group>
+                <name>MSC</name>
+                <file>
+                    <name>$PROJ_DIR$\..\..\..\Libraries\STM32_USB_Device_Library\Class\msc\src\usbd_msc_bot.c</name>
+                </file>
+                <file>
+                    <name>$PROJ_DIR$\..\..\..\Libraries\STM32_USB_Device_Library\Class\msc\src\usbd_msc_core.c</name>
+                </file>
+                <file>
+                    <name>$PROJ_DIR$\..\..\..\Libraries\STM32_USB_Device_Library\Class\msc\src\usbd_msc_data.c</name>
+                </file>
+                <file>
+                    <name>$PROJ_DIR$\..\..\..\Libraries\STM32_USB_Device_Library\Class\msc\src\usbd_msc_scsi.c</name>
+                </file>
+                <file>
+                    <name>$PROJ_DIR$\..\..\..\Libraries\STM32_USB_Device_Library\Class\msc\src\usbd_storage_msd.c</name>
                 </file>
             </group>
         </group>
