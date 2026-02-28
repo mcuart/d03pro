@@ -171,9 +171,14 @@ __ALIGN_BEGIN static uint8_t USBD_HID_CfgDesc[USB_HID_CONFIG_DESC_SIZ] __ALIGN_E
   /* 09 */
   0x09,         /*bLength: Interface Descriptor size*/
   USB_INTERFACE_DESCRIPTOR_TYPE,/*bDescriptorType: Interface descriptor type*/
+  /**********************************************************************************
+Composite（WINUSB+Customhid）复合设备， WINUSB必须用Interface0接口0,WINUSB_INTERFACE=0
+否则会导致 Customhid加载不了hid驱动，设备管理器里会显示在“其他设备”组里，显示问号，20240830
+所以，Customhid的bInterfaceNumber: Number of Interface需要改为0以外的数值，这里改为0x1
+***********************************************************************************/   
   0x01,         /*bInterfaceNumber: Number of Interface*/
   0x00,         /*bAlternateSetting: Alternate setting*/
-  0x02,         /*bNumEndpoints*/
+  0x02,         /*bNumEndpoints 端点数量，这里为2个端点，填0x02*/
   0x03,         /*bInterfaceClass: HID*/
   0x00,         /*bInterfaceSubClass : 1=BOOT, 0=no boot*/
   0x00,         /*nInterfaceProtocol : 0=none, 1=keyboard, 2=mouse*/

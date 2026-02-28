@@ -23,9 +23,9 @@
 
 if ($debugfile -eq "")
 {
-& "D:\IAR_8402\common\bin\cspybat" -f "F:\zhuomian\_F407\STM32F4xx_V1.9.0_FSMC_16bit_ILI9341_EMWIN_OK_UCOS_III_SWIMx2_SWDx2_USART1_3_6_xbf_p_mq_260116\Project\STM32F4xx_StdPeriph_Templates\EWARM\settings\Project.STM32F40_41xxx.general.xcl" --backend -f "F:\zhuomian\_F407\STM32F4xx_V1.9.0_FSMC_16bit_ILI9341_EMWIN_OK_UCOS_III_SWIMx2_SWDx2_USART1_3_6_xbf_p_mq_260116\Project\STM32F4xx_StdPeriph_Templates\EWARM\settings\Project.STM32F40_41xxx.driver.xcl" 
+& "D:\IAR_8402\common\bin\cspybat" -f "D:\d03pro\d03pro\Project\STM32F4xx_StdPeriph_Templates\EWARM\settings\Project.STM32F40_41xxx.general.xcl" --backend -f "D:\d03pro\d03pro\Project\STM32F4xx_StdPeriph_Templates\EWARM\settings\Project.STM32F40_41xxx.driver.xcl" 
 }
 else
 {
-& "D:\IAR_8402\common\bin\cspybat" -f "F:\zhuomian\_F407\STM32F4xx_V1.9.0_FSMC_16bit_ILI9341_EMWIN_OK_UCOS_III_SWIMx2_SWDx2_USART1_3_6_xbf_p_mq_260116\Project\STM32F4xx_StdPeriph_Templates\EWARM\settings\Project.STM32F40_41xxx.general.xcl" --debug_file=$debugfile --backend -f "F:\zhuomian\_F407\STM32F4xx_V1.9.0_FSMC_16bit_ILI9341_EMWIN_OK_UCOS_III_SWIMx2_SWDx2_USART1_3_6_xbf_p_mq_260116\Project\STM32F4xx_StdPeriph_Templates\EWARM\settings\Project.STM32F40_41xxx.driver.xcl" 
+& "D:\IAR_8402\common\bin\cspybat" -f "D:\d03pro\d03pro\Project\STM32F4xx_StdPeriph_Templates\EWARM\settings\Project.STM32F40_41xxx.general.xcl" --debug_file=$debugfile --backend -f "D:\d03pro\d03pro\Project\STM32F4xx_StdPeriph_Templates\EWARM\settings\Project.STM32F40_41xxx.driver.xcl" 
 }

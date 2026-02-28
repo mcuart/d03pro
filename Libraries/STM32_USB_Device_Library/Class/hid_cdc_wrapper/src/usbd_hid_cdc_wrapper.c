@@ -137,9 +137,14 @@ static uint8_t*  USBD_HID_CDC_GetConfigDescriptor( uint8_t speed , uint16_t *len
 //#define USB_HID_CDC_CONFIG_DESC_SIZ  (USB_HID_CONFIG_DESC_SIZ -9 + USB_CDC_CONFIG_DESC_SIZ  + 8)
 #define USB_HID_CDC_CONFIG_DESC_SIZ  (USB_HID_CONFIG_DESC_SIZ -9 + USB_CDC_CONFIG_DESC_SIZ)
 
-
+/**********************************************************************************
+Composite（WINUSB+Customhid）复合设备， WINUSB必须用Interface0接口0,WINUSB_INTERFACE=0
+否则会导致 Customhid加载不了hid驱动，设备管理器里会显示在“其他设备”组里，显示问号，20240830
+所以，Customhid的bInterfaceNumber: Number of Interface需要改为0以外的数值，这里改为0x1,
+即HID_INTERFACE=0x1
+***********************************************************************************/   
 #define HID_INTERFACE 0x1
-#define CDC_COM_INTERFACE 0x1
+#define WINUSB_INTERFACE 0x0
 
 
 USBD_Class_cb_TypeDef  USBD_HID_CDC_cb = 
@@ -173,21 +178,27 @@ __ALIGN_BEGIN static uint8_t USBD_HID_CDC_CfgDesc[USB_HID_CDC_CONFIG_DESC_SIZ] _
   USB_HID_CDC_CONFIG_DESC_SIZ,
   /* wTotalLength: Bytes returned */
   0x00,
-  0x02,         /*bNumInterfaces: 3 interfaces (2 for CDC, 1 for MSC)*/
+  0x02,         /*bNumInterfaces: 2 interfaces (1 for WINUSB, 1 for HID)*/
   0x01,         /*bConfigurationValue: Configuration value*/
   0x00,         /*iConfiguration: Index of string descriptor describing
   the configuration*/
-  0xC0,         /*bmAttributes: bus powered and Support Remote Wake-up */
+  0xC0,         /*bmAttributes: self powered */
   0x32,         /*MaxPower 100 mA: this current is used for detecting Vbus*/
   
   /************** Descriptor of Joystick Mouse interface ****************/
   /* 09 */
   0x09,         /*bLength: Interface Descriptor size*/
   USB_INTERFACE_DESCRIPTOR_TYPE,/*bDescriptorType: Interface descriptor type*/
+  /**********************************************************************************
+Composite（WINUSB+Customhid）复合设备， WINUSB必须用Interface0接口0,WINUSB_INTERFACE=0
+否则会导致 Customhid加载不了hid驱动，设备管理器里会显示在“其他设备”组里，显示问号，20240830
+所以，Customhid的bInterfaceNumber: Number of Interface需要改为0以外的数值，这里改为0x1,
+即HID_INTERFACE=0x1
+***********************************************************************************/   
   HID_INTERFACE,         /*bInterfaceNumber: Number of Interface*/
   0x00,         /*bAlternateSetting: Alternate setting*/
   //0x01,         /*bNumEndpoints*/
-  0x02,         /*bNumEndpoints*/
+  0x02,         /*bNumEndpoints 端点数量，这里为2个端点，填0x02*/
   0x03,         /*bInterfaceClass: HID*/
   0x00,         /*bInterfaceSubClass : 1=BOOT, 0=no boot*/
   0x00,         /*nInterfaceProtocol : 0=none, 1=keyboard, 2=mouse*/
@@ -232,14 +243,15 @@ __ALIGN_BEGIN static uint8_t USBD_HID_CDC_CfgDesc[USB_HID_CDC_CONFIG_DESC_SIZ] _
   0x09,   /* bLength: Endpoint Descriptor size */
   USB_INTERFACE_DESCRIPTOR_TYPE,  /* bDescriptorType: */
 /**********************************************************************************
-Composite（WINUSB+Customhid）复合设备， WINUSB必须用Interface0接口0 
+Composite（WINUSB+Customhid）复合设备， WINUSB必须用Interface0接口0,WINUSB_INTERFACE=0
 否则会导致 Customhid加载不了hid驱动，设备管理器里会显示在“其他设备”组里，显示问号，20240830
+所以，Customhid的bInterfaceNumber: Number of Interface需要改为0以外的数值，这里改为0x1
 ***********************************************************************************/      
-  0x00,   /* bInterfaceNumber: Number of Interface */
+  WINUSB_INTERFACE,   /* bInterfaceNumber: Number of Interface */
   0x00,   /* bAlternateSetting: Alternate setting */
   0x02,   /* bNumEndpoints: Two endpoints used */
   //0x0A,   /* bInterfaceClass: CDC */
-  0xff,   /* bInterfaceClass: vendor */
+  0xff,   /* bInterfaceClass: vendor 必须改为0xff，即厂商自定义类*/
   0x00,   /* bInterfaceSubClass: */
   0x00,   /* bInterfaceProtocol: */
   0x00,   /* iInterface: */
