@@ -11,6 +11,11 @@ jobs:
     # 1️⃣ Checkout 仓库
     - uses: actions/checkout@v4
 
+    # 2️⃣ 设置中国时区（UTC+8）
+    - name: Set timezone to China
+      run: tzutil /s "China Standard Time"
+      shell: cmd
+      
     # 2️⃣ 尝试从缓存恢复 IAR
     - name: Restore IAR cache
       uses: actions/cache@v4
